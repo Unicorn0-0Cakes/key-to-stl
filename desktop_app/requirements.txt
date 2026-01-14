@@ -1,0 +1,18 @@
+# Key to STL Desktop App - Python Dependencies
+
+# GUI Framework
+tkinter  # Built-in with Python, no installation needed
+
+# HTTP Requests for Keygen API
+requests==2.31.0
+
+# Image Processing
+Pillow==10.1.0
+opencv-python==4.8.1.78
+numpy==1.24.3
+
+# 3D Mesh/STL Generation
+numpy-stl==3.1.1
+
+# Additional utilities
+pathlib  # Built-in with Python 3.4+
