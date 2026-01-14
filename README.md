@@ -42,8 +42,21 @@ key-to-stl/
    export KEYGEN_PRODUCT_TOKEN="your-product-token"
    ```
    
-   Or update the values directly in `backend/app.py`.
 
+   **IMPORTANT**: Create a `.env` file in the `backend/` directory using `.env.example` as a template:
+   ```bash
+   cp backend/.env.example backend/.env
+   ```
+   
+   Then edit `backend/.env` and add your actual Keygen credentials:
+   ```
+   KEYGEN_ACCOUNT_ID=your_actual_account_id
+   KEYGEN_PRODUCT_ID=your_actual_product_id
+   KEYGEN_TOKEN=your_actual_api_token
+   FLASK_SECRET_KEY=generate_random_secret_key_here
+   ```
+   
+   > **⚠️ Security Note**: Never commit your `.env` file to version control. It's already in `.gitignore` to protect your credentials.
 3. **Run the API server:**
    ```bash
    python app.py
