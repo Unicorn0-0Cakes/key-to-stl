@@ -21,6 +21,11 @@ key-to-stl/
 │   └── requirements.txt    # Python dependencies
 ├── frontend/
 │   └── index.html         # Web interface
+├── desktop_app/
+│   ├── key_to_stl_app.py   # Desktop Python application
+│   ├── requirements.txt    # Desktop app dependencies
+│   ├── setup.py            # Build script for executables  
+│   └── README.md           # Desktop app documentation
 └── README.md
 ```
 
@@ -144,6 +149,55 @@ In your Keygen dashboard:
 1. Create a new policy for your product
 2. Generate licenses for users
 3. Distribute license keys to customers
+
+### Desktop Application Setup
+
+The desktop application provides a standalone Python application with GUI for local key-to-STL conversion.
+
+1. **Navigate to desktop app folder:**
+
+```bash
+cd desktop_app
+```
+
+2. **Install dependencies:**
+
+```bash
+pip install -r requirements.txt
+```
+
+3. **Configure Keygen API Key:**
+
+Open `key_to_stl_app.py` and replace the placeholder API key:
+
+```python
+self.api_key = "prod-YOUR_ACTUAL_API_KEY_HERE"
+```
+
+4. **Run the application:**
+
+```bash
+python key_to_stl_app.py
+```
+
+5. **Building Executable (Optional):**
+
+To create a standalone executable:
+
+**Using PyInstaller:**
+```bash
+pip install pyinstaller
+pyinstaller --onefile --windowed --name="KeyToSTL" key_to_stl_app.py
+```
+
+**Using cx_Freeze:**
+```bash
+pip install cx_Freeze
+python setup.py build
+```
+
+For detailed desktop app documentation, see `desktop_app/README.md`.
+
 
 ## Technical Stack
 
