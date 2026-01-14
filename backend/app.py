@@ -6,6 +6,7 @@ import requests
 import os
 import uuid
 from pathlib import Path
+from key_processor import KeyProcessor
 
 app = FastAPI()
 
@@ -105,11 +106,17 @@ async def generate_stl(file: UploadFile = File(...)):
       vertex 0.5 1 0
     endloop
   endfacet
-endsolid key"""
-    
     with open(stl_path, "w") as f:
-        f.write(stl_content)
-    
+    # Use KeyProcessor to generate actual STL
+    try:
+        processor = KeyProcessor()
+        stl_filename = processor.generate_stl(str(image_path))
+        
+            "downloadUrl": f"/api/download/{stl_filename}",
+            "filename": stl_filename
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"STL generation failed: {str(e)}")    
     return {
         "downloadUrl": f"/api/download/{stl_filename}",
         "filename": stl_filename
