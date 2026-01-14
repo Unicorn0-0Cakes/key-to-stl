@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Convert photos of physical keys into downloadable 3D STL files for 3D printing with Key to STL.">
-    <title>Key to STL - Convert Keys to 3D Printable Files</title>
+    <title>Key to STL - Transform Photos into 3D Printable Keys</title>
     <style>
         * {
             margin: 0;
@@ -13,33 +12,36 @@
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             line-height: 1.6;
-            color: #333;
+            color: #2d3748;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 20px;
         }
         
         header {
-            padding: 40px 0;
             text-align: center;
+            padding: 60px 20px 40px;
             color: white;
         }
         
         header h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            font-weight: 800;
         }
         
         header p {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             opacity: 0.95;
+            max-width: 700px;
+            margin: 0 auto;
         }
         
         .hero {
@@ -48,73 +50,125 @@
             padding: 60px 40px;
             margin: 40px auto;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 900px;
         }
         
-        .hero h2 {
+        .hero-title {
             font-size: 2.5rem;
+            text-align: center;
+            color: #667eea;
             margin-bottom: 20px;
-            color: #667eea;
-            text-align: center;
+            font-weight: 700;
         }
         
-        .hero-description {
+        .hero-subtitle {
             text-align: center;
-            font-size: 1.1rem;
-            margin-bottom: 40px;
-            color: #666;
+            font-size: 1.2rem;
+            color: #718096;
+            margin-bottom: 50px;
         }
         
-        .features {
+        .pricing-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
-            margin: 40px 0;
-        }
-        
-        .feature {
-            background: #f8f9ff;
-            padding: 30px;
-            border-radius: 15px;
-            border-left: 4px solid #667eea;
-            transition: transform 0.3s ease;
-        }
-        
-        .feature:hover {
-            transform: translateY(-5px);
-        }
-        
-        .feature h3 {
-            color: #667eea;
-            margin-bottom: 15px;
-            font-size: 1.3rem;
-        }
-        
-        .feature p {
-            color: #666;
-            line-height: 1.6;
-        }
-        
-        .cta-section {
-            text-align: center;
             margin: 50px 0;
         }
         
-        .cta-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-top: 30px;
+        .pricing-card {
+            background: #f7fafc;
+            border: 3px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        .pricing-card.featured {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .pricing-card.featured:hover {
+            transform: scale(1.08) translateY(-5px);
+        }
+        
+        .badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #48bb78;
+            color: white;
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+        
+        .plan-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .price {
+            font-size: 3rem;
+            font-weight: 800;
+            margin: 20px 0;
+        }
+        
+        .price-period {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+        
+        .features {
+            list-style: none;
+            margin: 30px 0;
+            text-align: left;
+        }
+        
+        .features li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .pricing-card.featured .features li {
+            border-bottom-color: rgba(255,255,255,0.2);
+        }
+        
+        .features li:before {
+            content: "✓ ";
+            color: #48bb78;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .pricing-card.featured .features li:before {
+            color: #ffd700;
         }
         
         .btn {
             display: inline-block;
-            padding: 15px 40px;
-            font-size: 1.1rem;
+            padding: 18px 50px;
+            font-size: 1.2rem;
             font-weight: bold;
             text-decoration: none;
             border-radius: 50px;
             transition: all 0.3s ease;
+            margin-top: 20px;
+            border: none;
+            cursor: pointer;
         }
         
         .btn-primary {
@@ -129,99 +183,93 @@
             box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
         }
         
-        .btn-secondary {
+        .btn-white {
             background: white;
             color: #667eea;
-            border: 2px solid #667eea;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
         
-        .btn-secondary:hover {
-            background: #667eea;
+        .btn-white:hover {
+            background: #f7fafc;
+            transform: translateY(-2px);
+        }
+        
+        .trial-badge {
+            background: #48bb78;
             color: white;
-        }
-        
-        .platforms {
-            background: #f8f9ff;
-            padding: 40px;
-            border-radius: 15px;
-            margin: 40px 0;
-        }
-        
-        .platforms h3 {
-            text-align: center;
-            color: #667eea;
-            margin-bottom: 30px;
-            font-size: 2rem;
-        }
-        
-        .platform-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        
-        .platform-card {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .platform-card h4 {
-            color: #667eea;
-            margin-bottom: 15px;
-            font-size: 1.5rem;
-        }
-        
-        .platform-card ul {
-            list-style: none;
-            padding-left: 0;
-        }
-        
-        .platform-card li {
-            padding: 8px 0;
-            color: #666;
-        }
-        
-        .platform-card li:before {
-            content: "✓ ";
-            color: #667eea;
+            padding: 8px 20px;
+            border-radius: 20px;
+            display: inline-block;
+            margin: 20px 0;
             font-weight: bold;
-            margin-right: 10px;
+        }
+        
+        .features-section {
+            margin-top: 60px;
+            text-align: center;
+        }
+        
+        .features-section h3 {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 40px;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .feature-item {
+            padding: 30px 20px;
+            background: #f7fafc;
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .feature-item h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
         }
         
         footer {
             text-align: center;
-            padding: 40px 0;
+            padding: 40px 20px;
             color: white;
             margin-top: 60px;
         }
         
-        footer a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        
-        footer a:hover {
-            text-decoration: underline;
-        }
-        
         @media (max-width: 768px) {
             header h1 {
-                font-size: 2rem;
+                font-size: 2.5rem;
             }
             
             .hero {
                 padding: 40px 20px;
             }
             
-            .hero h2 {
-                font-size: 1.8rem;
+            .hero-title {
+                font-size: 2rem;
             }
             
-            .features {
+            .pricing-cards {
                 grid-template-columns: 1fr;
+            }
+            
+            .pricing-card.featured {
+                transform: scale(1);
             }
         }
     </style>
@@ -230,97 +278,77 @@
     <div class="container">
         <header>
             <h1>🔑 Key to STL</h1>
-            <p>Transform Physical Keys into 3D Printable Models</p>
+            <p>Turn any key photo into a 3D printable model in seconds</p>
         </header>
         
         <div class="hero">
-            <h2>Convert Keys to STL Files Instantly</h2>
-            <p class="hero-description">
-                Upload a photo of your key and get a ready-to-print 3D STL file in seconds. 
-                Powered by advanced image processing and licensed with Keygen for secure access.
-            </p>
+            <h2 class="hero-title">Simple Pricing, Powerful Results</h2>
+            <p class="hero-subtitle">Start your 7-day free trial today. No credit card required.</p>
             
-            <div class="features">
-                <div class="feature">
-                    <h3>🔐 License-Based Access</h3>
-                    <p>Secure license validation using Keygen API ensures authorized access to the conversion service.</p>
+            <div class="trial-badge">✓ 7-Day Free Trial Included</div>
+            
+            <div class="pricing-cards">
+                <div class="pricing-card">
+                    <div class="plan-name">Monthly</div>
+                    <div class="price">$0.99<span class="price-period">/month</span></div>
+                    <p style="margin: 20px 0; opacity: 0.8;">when billed annually</p>
+                    <ul class="features">
+                        <li>Unlimited conversions</li>
+                        <li>High-quality STL files</li>
+                        <li>Desktop & web app access</li>
+                        <li>Email support</li>
+                        <li>Cancel anytime</li>
+                    </ul>
+                    <a href="#signup" class="btn btn-primary">Start Free Trial</a>
+                    <p style="margin-top: 15px; font-size: 0.85rem; opacity: 0.7;">$11.88 billed annually</p>
                 </div>
                 
-                <div class="feature">
-                    <h3>📸 Simple Photo Upload</h3>
-                    <p>Just take a photo of your key on a flat surface and upload it to our web interface.</p>
-                </div>
-                
-                <div class="feature">
-                    <h3>🧠 Smart Processing</h3>
-                    <p>OpenCV-based detection automatically extracts key profiles and bitting patterns.</p>
-                </div>
-                
-                <div class="feature">
-                    <h3>🎭 3D Model Generation</h3>
-                    <p>Automatic conversion creates accurate 3D models ready for immediate printing.</p>
-                </div>
-                
-                <div class="feature">
-                    <h3>⬇️ Instant Download</h3>
-                    <p>Get your STL file instantly - ready for any 3D printer or CAD software.</p>
-                </div>
-                
-                <div class="feature">
-                    <h3>⚡ Fast & Reliable</h3>
-                    <p>Processing typically takes 5-15 seconds per key with high accuracy results.</p>
+                <div class="pricing-card featured">
+                    <div class="badge">BEST VALUE</div>
+                    <div class="plan-name">Lifetime</div>
+                    <div class="price">$49.99<span class="price-period">once</span></div>
+                    <p style="margin: 20px 0;">Pay once, use forever</p>
+                    <ul class="features">
+                        <li>Everything in Monthly</li>
+                        <li>Lifetime updates</li>
+                        <li>Priority support</li>
+                        <li>Early access to features</li>
+                        <li>One-time payment</li>
+                    </ul>
+                    <a href="#signup" class="btn btn-white">Start Free Trial</a>
+                    <p style="margin-top: 15px; font-size: 0.85rem;">Save $72+ over 2 years</p>
                 </div>
             </div>
             
-            <div class="cta-section">
-                <h3>Choose Your Platform</h3>
-                <div class="cta-buttons">
-                    <a href="https://github.com/Unicorn0-0Cakes/key-to-stl" class="btn btn-primary">View on GitHub</a>
-                    <a href="https://github.com/Unicorn0-0Cakes/key-to-stl/tree/main/desktop_app" class="btn btn-secondary">Desktop App</a>
-                                    <p style="margin-top: 10px; color: #10b981; font-weight: bold;">✓ 7-Day Free Trial Included</p>
-                                    <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
-                    <a href="https://github.com/Unicorn0-0Cakes/key-to-stl/releases/latest/download/KeyToSTL-Windows.exe" class="btn btn-download" style="background: #5865f2; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; display: inline-block;">💻 Download for Windows</a>
-                    <a href="https://github.com/Unicorn0-0Cakes/key-to-stl/releases/latest/download/KeyToSTL-macOS.dmg" class="btn btn-download" style="background: #5865f2; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; display: inline-block;">🍎 Download for macOS</a>
-                    <a href="https://github.com/Unicorn0-0Cakes/key-to-stl/releases/latest/download/KeyToSTL-Linux.AppImage" class="btn btn-download" style="background: #5865f2; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; display: inline-block;">🐧 Download for Linux</a>
-                </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="platforms">
-            <h3>Available Platforms</h3>
-            <div class="platform-cards">
-                <div class="platform-card">
-                    <h4>🌐 Web Application</h4>
-                    <ul>
-                        <li>Browser-based interface</li>
-                        <li>FastAPI backend with Keygen</li>
-                        <li>No installation required</li>
-                        <li>Access from any device</li>
-                        <li>Real-time processing</li>
-                    </ul>
-                </div>
-                
-                <div class="platform-card">
-                    <h4>🖥️ Desktop Application</h4>
-                    <ul>
-                        <li>Python GUI with tkinter</li>
-                        <li>Offline-capable processing</li>
-                        <li>Windows, macOS, Linux support</li>
-                        <li>Local license storage</li>
-                        <li>Standalone executables</li>
-                    </ul>
+            <div class="features-section">
+                <h3>Why Key to STL?</h3>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">📸</div>
+                        <h4>Simple Upload</h4>
+                        <p>Just take a photo of your key and upload it</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">⚡</div>
+                        <h4>Fast Processing</h4>
+                        <p>Get your STL file in seconds, not hours</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🎯</div>
+                        <h4>Accurate Models</h4>
+                        <p>OpenCV-powered detection for precise results</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🖨️</div>
+                        <h4>Print Ready</h4>
+                        <p>Compatible with any 3D printer or CAD software</p>
+                    </div>
                 </div>
             </div>
         </div>
         
         <footer>
-            <p>Built with ❤️ using Python, FastAPI, OpenCV, and <a href="https://keygen.sh" target="_blank">Keygen</a></p>
-            <p style="margin-top: 10px;">
-                <a href="https://github.com/Unicorn0-0Cakes/key-to-stl">GitHub Repository</a> | 
-                <a href="https://github.com/Unicorn0-0Cakes/key-to-stl/blob/main/README.md">Documentation</a>
-            </p>
-            <p style="margin-top: 20px; font-size: 0.9rem; opacity: 0.8;">&copy; 2026 Key to STL Project</p>
+            <p>© 2026 Key to STL Project | <a href="https://github.com/Unicorn0-0Cakes/key-to-stl" style="color: white;">View on GitHub</a></p>
         </footer>
     </div>
 </body>
