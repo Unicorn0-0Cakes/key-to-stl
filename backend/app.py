@@ -18,10 +18,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Keygen configuration
-KEYGEN_ACCOUNT_ID = os.getenv("KEYGEN_ACCOUNT_ID", "YOUR_ACCOUNT_ID")
-KEYGEN_PRODUCT_TOKEN = os.getenv("KEYGEN_PRODUCT_TOKEN", "YOUR_PRODUCT_TOKEN")
-KEYGEN_PRODUCT_ID = "02073ec9-de68-4dbb-8a87-54665836fbdd"
+# Keygen configuration - SECURED
+# These values MUST be set as environment variables
+# Never commit actual credentials to the repository
+KEYGEN_ACCOUNT_ID = os.getenv("KEYGEN_ACCOUNT_ID")
+KEYGEN_PRODUCT_TOKEN = os.getenv("KEYGEN_PRODUCT_TOKEN")
+KEYGEN_PRODUCT_ID = os.getenv("KEYGEN_PRODUCT_ID", "02073ec9-de68-4dbb-8a87-54665836fbdd")
+
+# Validate that required environment variables are set
+if not KEYGEN_ACCOUNT_ID or not KEYGEN_PRODUCT_TOKEN:
+    raise ValueError(
+        "Missing required environment variables: KEYGEN_ACCOUNT_ID and KEYGEN_PRODUCT_TOKEN must be set. "
+        "See README.md for setup instructions."
+    )
 
 # Storage directories
 UPLOAD_DIR = Path("uploads")
