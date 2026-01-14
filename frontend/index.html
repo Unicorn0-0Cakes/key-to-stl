@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Key to STL - Replace Your Key</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        .step {
+            display: none;
+        }
+        
+        .step.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        input[type="text"],
+        input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .file-upload {
+            border: 2px dashed #e0e0e0;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .file-upload:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+        
+        .file-upload-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+        }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .error {
+            color: #e53e3e;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        .success {
+            color: #38a169;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .download-btn {
+            background: #38a169;
+            margin-top: 15px;
+        }
+        
+        .instructions {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .instructions ul {
+            list-style-position: inside;
+            color: #666;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔑 Key to STL</h1>
+        <p class="subtitle">Upload a photo of your key and get a 3D printable STL file</p>
+        
+        <!-- Step 1: License Validation -->
+        <div class="step active" id="step1">
+            <div class="form-group">
+                <label for="licenseKey">Enter Your License Key</label>
+                <input type="text" id="licenseKey" placeholder="XXXXX-XXXXX-XXXXX-XXXXX">
+                <div class="error" id="licenseError"></div>
+            </div>
+            <button onclick="validateLicense()">Validate License</button>
+        </div>
+        
+        <!-- Step 2: Photo Upload -->
+        <div class="step" id="step2">
+            <div class="instructions">
+                <h3 style="margin-bottom: 10px;">Photo Guidelines:</h3>
+                <ul>
+                    <li>Place key on a flat, plain background</li>
+                    <li>Take photo from directly above</li>
+                    <li>Ensure good lighting (no shadows)</li>
+                    <li>Key should be clearly visible</li>
+                </ul>
+            </div>
+            
+            <div class="form-group">
+                <div class="file-upload" onclick="document.getElementById('fileInput').click()">
+                    <div class="file-upload-icon">📸</div>
+                    <p><strong>Click to upload</strong> or drag and drop</p>
+                    <p style="color: #999; font-size: 14px; margin-top: 5px;">PNG, JPG up to 10MB</p>
+                </div>
+                <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleFileSelect()">
+                <p class="success" id="fileSuccess"></p>
+                <div class="error" id="fileError"></div>
+            </div>
+            <button onclick="generateSTL()" id="generateBtn" disabled>Generate STL</button>
+        </div>
+        
+        <!-- Step 3: Processing -->
+        <div class="step" id="step3">
+            <div class="loading">
+                <div class="spinner"></div>
+                <p>Processing your key image...</p>
+                <p style="color: #999; margin-top: 10px;">This may take a few moments</p>
+            </div>
+        </div>
+        
+        <!-- Step 4: Download -->
+        <div class="step" id="step4">
+            <div style="text-align: center;">
+                <div style="font-size: 64px; margin-bottom: 20px;">✅</div>
+                <h2 style="margin-bottom: 10px;">STL File Ready!</h2>
+                <p style="color: #666; margin-bottom: 20px;">Your key has been converted to a 3D model</p>
+                <button onclick="downloadSTL()" class="download-btn">Download STL File</button>
+                <button onclick="startOver()" style="background: #e0e0e0; color: #333; margin-top: 10px;">Create Another</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const API_BASE_URL = 'http://localhost:8000';
+        let selectedFile = null;
+        let stlFilename = null;
+        
+        function showStep(stepNumber) {
+            document.querySelectorAll('.step').forEach(step => step.classList.remove('active'));
+            document.getElementById(`step${stepNumber}`).classList.add('active');
+        }
+        
+        async function validateLicense() {
+            const licenseKey = document.getElementById('licenseKey').value.trim();
+            const errorEl = document.getElementById('licenseError');
+            
+            if (!licenseKey) {
+                errorEl.textContent = 'Please enter a license key';
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/validate-license`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ key: licenseKey })
+                });
+                
+                const data = await response.json();
+                
+                if (data.valid) {
+                    errorEl.textContent = '';
+                    showStep(2);
+                } else {
+                    errorEl.textContent = data.message || 'Invalid license key';
+                }
+            } catch (error) {
+                errorEl.textContent = 'Error validating license. Please try again.';
+            }
+        }
+        
+        function handleFileSelect() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            const successEl = document.getElementById('fileSuccess');
+            const errorEl = document.getElementById('fileError');
+            const generateBtn = document.getElementById('generateBtn');
+            
+            if (file) {
+                if (file.size > 10 * 1024 * 1024) {
+                    errorEl.textContent = 'File size must be less than 10MB';
+                    successEl.textContent = '';
+                    generateBtn.disabled = true;
+                    return;
+                }
+                
+                if (!file.type.startsWith('image/')) {
+                    errorEl.textContent = 'Please select an image file';
+                    successEl.textContent = '';
+                    generateBtn.disabled = true;
+                    return;
+                }
+                
+                selectedFile = file;
+                successEl.textContent = `✓ ${file.name} selected`;
+                errorEl.textContent = '';
+                generateBtn.disabled = false;
+            }
+        }
+        
+        async function generateSTL() {
+            if (!selectedFile) return;
+            
+            showStep(3);
+            
+            const formData = new FormData();
+            formData.append('file', selectedFile);
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/generate-stl`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                stlFilename = data.filename;
+                
+                showStep(4);
+            } catch (error) {
+                alert('Error generating STL. Please try again.');
+                showStep(2);
+            }
+        }
+        
+        function downloadSTL() {
+            if (stlFilename) {
+                window.location.href = `${API_BASE_URL}/api/download/${stlFilename}`;
+            }
+        }
+        
+        function startOver() {
+            selectedFile = null;
+            stlFilename = null;
+            document.getElementById('licenseKey').value = '';
+            document.getElementById('fileInput').value = '';
+            document.getElementById('fileSuccess').textContent = '';
+            document.getElementById('generateBtn').disabled = true;
+            showStep(1);
+        }
+    </script>
+</body>
+</html>
