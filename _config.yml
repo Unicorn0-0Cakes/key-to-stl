@@ -1,0 +1,15 @@
+# Jekyll configuration for GitHub Pages
+# Ensures custom index.html is served at root
+
+# Disable automatic README rendering
+readme_index: false
+
+# Use minimal theme that doesn't interfere with custom HTML
+theme: null
+
+# Exclude files from processing
+exclude:
+  - backend/
+  - frontend/
+  - desktop_app/
+  - .gitignore
