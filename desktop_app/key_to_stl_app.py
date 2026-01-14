@@ -14,8 +14,7 @@ import hashlib
 class KeygenLicenseManager:
     def __init__(self):
         self.account_id = "b7ebf59e-18f0-46b0-8a95-e97af6281bdd"
-        self.api_key = "prod-27Xxxxxxxxxxxxxxxxxxxx"  # Replace with actual key
-        self.policy_id = "e85d12e1-2785-4b5d-8c1d-992d63a2d606"
+        self.api_key = "70D3DC-6149FB-CBD894-E82C13-E20DFD-V3"  # Replace with actual key        self.policy_id = "e85d12e1-2785-4b5d-8c1d-992d63a2d606"
         self.base_url = "https://api.keygen.sh/v1/accounts/{}".format(self.account_id)
         self.license_file = Path.home() / ".key_to_stl_license"
         
