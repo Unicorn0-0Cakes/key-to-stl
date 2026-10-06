@@ -94,7 +94,7 @@ Output: `KeyToSTL-Linux.AppImage`
      Convert photos of physical keys into 3D printable STL files.
      
      ### ✨ Features
-     - ✅ 7-Day Free Trial (License: A16OBC-078EAA-5D)
+     - ✅ 7-Day Free Trial
      - 🖼️ Photo to STL conversion
      - 🔒 Keygen license integration
      - ⚡ Fast processing (5-15 seconds)
@@ -113,7 +113,6 @@ Output: `KeyToSTL-Linux.AppImage`
 ## Trial License Information
 
 **Built-in 7-Day Trial:**
-- License Key: `A16OBC-078EAA-5D`
 - Duration: 7 days from first activation
 - No credit card required
 - Full feature access
